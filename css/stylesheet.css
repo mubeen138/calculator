@@ -1,0 +1,54 @@
+/* 
+func buttons colors #efefef
+num pads #f9f9f9
+display #e5e5e5
+numbers #585858
+operators #8e8e8c
+fonts maybe Segoe
+*/
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#main-container{
+    padding: 30px 10px;
+    background-color: #e5e5e5;
+    width: 500px;
+    height: 600px;
+}
+#display{
+    height: 150px;
+    margin-top:25px;
+    margin-bottom: 25px;
+}
+#small-display{
+    height: 50px;
+    box-sizing: border-box;
+}
+#large-display{
+    height: 100px;
+    box-sizing: border-box;
+}
+#back-space{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#backs-pace span{
+    flex: 1;
+    
+}
+#keypad{
+    display:flex;
+    flex-wrap: wrap;
+
+}
+#keypad button{
+    margin:4px;
+    flex:1 0 115px;
+    width: 115px;
+    height: 73px;
+}
