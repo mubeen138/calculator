@@ -6,6 +6,9 @@ numbers #585858
 operators #8e8e8c
 fonts maybe Segoe
 */
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:ital,wght@0,600;1,500&display=swap');
 body{
     height: 100vh;
     display: flex;
@@ -13,23 +16,39 @@ body{
     align-items: center;
 }
 #main-container{
+    border-radius: 1%;
     padding: 30px 10px;
     background-color: #e5e5e5;
     width: 500px;
     height: 600px;
 }
 #display{
+    font-family: "Jura";
+    padding-right: 25px;
+    border-radius: 10px;
+    background-color: aliceblue;
     height: 150px;
     margin-top:25px;
     margin-bottom: 25px;
 }
 #small-display{
     height: 50px;
+    margin:0px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     box-sizing: border-box;
+    text-align: right;
 }
 #large-display{
+    font-size: 40px;
+    margin:0px;
     height: 100px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     box-sizing: border-box;
+    text-align: right;
 }
 #back-space{
     display:flex;
@@ -42,13 +61,28 @@ body{
     
 }
 #keypad{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
     display:flex;
+    justify-content: center;
     flex-wrap: wrap;
 
 }
 #keypad button{
+    padding:0px;
+    font-size: 20px;
     margin:4px;
     flex:1 0 115px;
     width: 115px;
     height: 73px;
+}
+#keypad .nums{
+    color: #585858;
+    background-color: #f9f9f9;
+    border-color: #f9f9f9;
+}
+#keypad .funcs{
+    color:#777676;
+    background-color: #efefef;
+    border-color: #efefef;
 }
