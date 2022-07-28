@@ -190,8 +190,12 @@ function equal(){
 poinButton.addEventListener('click',pointPressed);
 
 function pointPressed(){
-   nums = nums.concat('','.');
-   floatFlag = true;
+    if(!floatFlag)
+    {
+        nums = nums.concat('','.');
+        floatFlag = true;
+    }
+   
 }
 
 plusmnButton.addEventListener('click',plusmnPressed);
