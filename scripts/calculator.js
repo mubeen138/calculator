@@ -18,6 +18,7 @@ let bsButton = document.querySelector("#back-space");
 // Clear Everything button should clear everything
 let buttonCe = document.querySelector("#clear-everything");
 buttonCe.addEventListener('click',clearEverything);
+
 //Clear button should clear only big display or current entry
 let buttonClr = document.querySelector("#clear");
 
@@ -97,7 +98,11 @@ function oprPressed(event){
         }else{
             opString = `${firstOperand} ${event.currentTarget.textContent}`;
         }
-        
+        if (opString.length > 100){
+            let extra = opString.length-100;
+            opString = opString.slice(extra);
+            opString = opString.slice((opString.search(" ")+2));
+        }
         smallDisplay(opString);
         operand = event.currentTarget.id;
         
@@ -131,7 +136,11 @@ function oprPressed(event){
             //assign the results to firstOperand
             firstOperand = result;
         }
-        
+        if (opString.length > 100){
+            let extra = opString.length-100;
+            opString = opString.slice(extra);
+            opString = opString.slice((opString.search(" ")+2));
+        }
         smallDisplay(opString);
         
         //assign the operand pressed now
@@ -158,31 +167,45 @@ function operation(fOp,sOp,opr){
             bigDisplay("Error!");
             break;
     }
+   if(result.toString().length >= 20){
+    result = result.toExponential(2);
+   }
     bigDisplay(`${result}`);
 }
 
 //Define Equal button functionality
 equalsButton.addEventListener('click',equal)
 function equal(){
-    firstCalc = false;
-    if(nums.length == 0){
+    if (firstCalc && opFlag){
+        firstCalc = false;
+        if(nums.length == 0){
+            secondOperand = 0;
+        }else if (floatFlag){
+            secondOperand = parseFloat(nums);
+            floatFlag = false;
+            nums = "";
+        }else{
+            secondOperand = parseInt(nums,10);
+            nums = "";
+        }
+        if (secondOperand < 0){
+            opString = `${opString} (${secondOperand})`;
+        }else{
+            opString = `${opString} ${secondOperand}`;
+        }
+
+        if (opString.length > 100){
+            let extra = opString.length-100;
+            opString = opString.slice(extra);
+            opString = opString.slice((opString.search(" ")+2));
+        }
+        smallDisplay(opString);
+        operation(firstOperand,secondOperand,operand);
+        opString = `${result}`;
+        firstOperand = 0;
         secondOperand = 0;
-    }else if (floatFlag){
-        secondOperand = parseFloat(nums);
-        floatFlag = false;
-        nums = "";
-    }else{
-        secondOperand = parseInt(nums,10);
-        nums = "";
-    }
-    if (secondOperand < 0){
-        opString = `${opString} (${secondOperand})`;
-    }else{
-        opString = `${opString} ${secondOperand}`;
     }
     
-    smallDisplay(opString);
-    operation(firstOperand,secondOperand,operand);
     //firstOperand = result;
 }
 
@@ -225,3 +248,30 @@ function backSpace(){
     
     bigDisplay(nums);
 }
+
+document.addEventListener('keydown',(event) => {
+
+    let keypressed
+    
+    if (event.key === "+"){
+        keypressed = document.querySelector("#add");
+    }else if (event.key === "-"){
+        keypressed = document.querySelector("#subtract");
+    }else if (event.key === "/"){
+        keypressed = document.querySelector("#divide");
+    }else if (event.key === "*"){
+        keypressed = document.querySelector("#multiply");
+    }else if (event.key === "."){
+        keypressed = document.querySelector("#point");
+    }else if (event.key === "="){
+        keypressed = document.querySelector("#equals");
+    }else if (event.key === "Enter"){
+        keypressed = document.querySelector("#equals");
+        event.preventDefault();
+    }else if (event.key === "Backspace"){
+        keypressed = document.querySelector("#back-space");
+    }else{
+        keypressed = document.querySelector(`[id = "${event.key}" ]`);
+    }
+    keypressed.click();
+})

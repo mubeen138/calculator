@@ -42,6 +42,7 @@ body{
 }
 #large-display{
     font-size: 40px;
+    width: 18ch;
     margin:0px;
     height: 100px;
     display: flex;
