@@ -77,56 +77,67 @@ mathButtons.forEach(btn => btn.addEventListener('click',oprPressed));
 function oprPressed(event){
     
     if (!opFlag){
-        opFlag = true;
+        //If operand is pressed for the first time do this
+        opFlag = true; // This means operator pressed already
 
         //smDisp.textContent = "";
 
-        
-        if(nums.length == 0){
-            firstOperand = 0;
-        }else if (floatFlag){
-            firstOperand = parseFloat(nums);
-            floatFlag = false;
-            nums = "";
+        // Operator is pressed now read the value to firstOperand
+        if(firstCalc){
+            if(nums.length == 0){
+                firstOperand = 0;
+            }else if (floatFlag){  //Decide if decimal point pressed. that means its float.
+                firstOperand = parseFloat(nums);
+                floatFlag = false;
+                nums = "";
+            }else{
+                firstOperand = parseInt(nums,10);
+                nums = "";
+            }
+            bigDisplay('0');
         }else{
-            firstOperand = parseInt(nums,10);
-            nums = "";
+            firstOperand = result;
         }
-        bigDisplay('0');
+         // Operator is pressed display zero in big display. Means ready to get second value
+/*************************************** Display Code ***********************************************************************/
+        // Display with brackets if firstOperand is negative number
         if (firstOperand < 0){
-            opString = `(${firstOperand}) ${event.currentTarget.textContent}`;
+            opString = `(${firstOperand}) ${event.currentTarget.textContent}`; 
         }else{
             opString = `${firstOperand} ${event.currentTarget.textContent}`;
         }
+/***********************************************Check legth doesn't overflow************************************************************* */
+    // If lenght of opString is greater than 100 trim the older calculations.
         if (opString.length > 100){
             let extra = opString.length-100;
             opString = opString.slice(extra);
             opString = opString.slice((opString.search(" ")+2));
         }
         smallDisplay(opString);
+/***************************************************Read Operand Value******************************************************* */
+        // Read withc operand was pressed.
         operand = event.currentTarget.id;
-        
-    }else{
+ /***************************************************************************************************************************** 
+  * ******************************************
+  * 
+  * */       
+    }else{ // If the operator is not pressed for the first time
         //smDisp.textContent = "";
-        if(nums.length == 0){
-            secondOperand = 0;
-        }else if (floatFlag){
-            secondOperand = parseFloat(nums);
-            floatFlag = false;
-            nums = "";
-        }else{
-            secondOperand = parseInt(nums,10);
-            nums = "";
-        }
-        if (!firstCalc){
-
-            opString = `${opString} ${event.currentTarget.textContent}`;
-            firstCalc = true;
-            //If not first calc assign prev result to firstOperand
-            firstOperand = result;
-        }else{
+/***************************************************Read value of second operand******************************************************/
+        // Read the second operand
+        if (firstCalc){
+            if(nums.length == 0){
+                secondOperand = 0;
+            }else if (floatFlag){ //Check if entered number is float
+                secondOperand = parseFloat(nums);
+                floatFlag = false;
+                nums = "";
+            }else{
+                secondOperand = parseInt(nums,10);
+                nums = "";
+            }
             if (secondOperand < 0){
-                opString = `${opString} (${secondOperand}) ${event.currentTarget.textContent}`;
+                opString = `${opString} (${secondOperand}) ${event.currentTarget.textContent}`; // Display negetive value with bracket around
             }else{
                 opString = `${opString} ${secondOperand} ${event.currentTarget.textContent}`;
             }
@@ -135,7 +146,18 @@ function oprPressed(event){
             operation(firstOperand,secondOperand,operand);
             //assign the results to firstOperand
             firstOperand = result;
+            operand = event.currentTarget.id;
+            nums = "";
+            bigDisplay(firstOperand);
+        }else{
+            /**************** // If equal was pressed earlier and We already have a result*/
+
+            opString = `${opString} ${event.currentTarget.textContent}`; //Display the operand
+            firstCalc = true;
+            bigDisplay('0');
+            firstOperand = result;
         }
+        
         if (opString.length > 100){
             let extra = opString.length-100;
             opString = opString.slice(extra);
@@ -144,8 +166,8 @@ function oprPressed(event){
         smallDisplay(opString);
         
         //assign the operand pressed now
-        operand = event.currentTarget.id;
-        nums = ""; 
+        
+        
     }
 }
 
@@ -201,7 +223,11 @@ function equal(){
         }
         smallDisplay(opString);
         operation(firstOperand,secondOperand,operand);
-        opString = `${result}`;
+        if (result < 0){
+            opString = `(${result})`;
+        }else{
+            opString = `${result}`;
+        }
         firstOperand = 0;
         secondOperand = 0;
     }
