@@ -4,7 +4,7 @@ let nums = "";
 let result = 0;
 let firstOperand = 0;
 let secondOperand = 0;
-let operand = "";
+let operator = "";
 let opFlag = false;
 let firstCalc = true;
 let floatFlag = false;
@@ -77,7 +77,7 @@ mathButtons.forEach(btn => btn.addEventListener('click',oprPressed));
 function oprPressed(event){
     
     if (!opFlag){
-        //If operand is pressed for the first time do this
+        //If operator is pressed for the first time do this
         opFlag = true; // This means operator pressed already
 
         //smDisp.textContent = "";
@@ -116,7 +116,7 @@ function oprPressed(event){
         smallDisplay(opString);
 /***************************************************Read Operand Value******************************************************* */
         // Read withc operand was pressed.
-        operand = event.currentTarget.id;
+        operator = event.currentTarget.id;
  /***************************************************************************************************************************** 
   * ******************************************
   * 
@@ -143,16 +143,17 @@ function oprPressed(event){
             }
             
             // First perform the previous calculation and calculate results
-            operation(firstOperand,secondOperand,operand);
+            operation(firstOperand,secondOperand,operator);
             //assign the results to firstOperand
             firstOperand = result;
-            operand = event.currentTarget.id;
+            operator = event.currentTarget.id;
             nums = "";
             bigDisplay(firstOperand);
         }else{
             /**************** // If equal was pressed earlier and We already have a result*/
 
             opString = `${opString} ${event.currentTarget.textContent}`; //Display the operand
+            operator = event.currentTarget.id;
             firstCalc = true;
             bigDisplay('0');
             firstOperand = result;
@@ -222,7 +223,7 @@ function equal(){
             opString = opString.slice((opString.search(" ")+2));
         }
         smallDisplay(opString);
-        operation(firstOperand,secondOperand,operand);
+        operation(firstOperand,secondOperand,operator);
         if (result < 0){
             opString = `(${result})`;
         }else{
